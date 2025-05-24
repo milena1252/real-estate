@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>realEstate</title>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">RealEstate.by</div>
+        <ul class="nav-links">
+            <li><a href="">Главная</a></li>
+            <li><a href="">Каталог</a></li>
+            <li><a href=""> О компании</a></li>
+            <li><a href="">Контакты</a></li>
+        </ul>
+    </nav>
+    <div class="wrap">
+        <h1>Недвижимость в Беларуси</h1>
+        <p>Найдите свой дом среди тысяч предложений</p>
+    <div class="filters">
+        <input type="text" id="search" placeholder="Район, улица, метро...">
+    <select id="type">
+        <option value="all">Все типы</option>
+        <option value="flat">Квартира</option>
+        <option value="house">Дом</option>
+        <option value="commercial">Коммерческая</option>
+    </select>
+    <select id="price">
+        <option value="all">Любая цена</option>
+        <option value="100">До $100к</option>
+        <option value="200">До $200к</option>
+    </select>
+    <button id="search-btn"><i class="fas fa-search"></i>Найти</button>
+    
+    </div>
+    </div>
+    
+</header>
+
+<main>
+    
+    <div id="map"></div>
+
+    <aside class="property-list">
+        <h2>Предложения <span id="results-count">(125)</span></h2>
+        <div class="properties">
+            Здесь будут карточки недвижимости
+        </div>
+    </aside>
+
+</main>
+
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=a226a8b8-f91a-46ba-8a6f-4adc9e62488a&lang=ru_RU"></script>
+<script src="script.js"></script>    
+</body>
+</html>
+
+
+
+

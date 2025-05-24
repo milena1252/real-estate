@@ -1,0 +1,113 @@
+body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        header {
+              background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('real-estate-bg.jpg');
+              background-size: cover;
+              color: aliceblue;
+              padding: 1rem;
+              position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .wrap {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .filters {
+           display: flex;
+           gap: 10px;
+           flex-wrap: wrap;
+           justify-content: center;
+           margin-top: 1.5rem;
+           background: rgba(255,255,255,0.9);
+           padding: 1rem;
+           border-radius: 8px;
+           max-width: 900px;
+           margin: 1.5rem auto;
+        }
+
+        .filters input, .filters select, .filters button {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #search {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        #search-btn {
+            background: #2c7be5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #search-btn:hover {
+            background: #1a68d1;
+        }
+
+        main {
+            display: flex;
+            height: calc(100vh - 250px);
+        }
+
+        #map {
+            flex: 1;
+            height: 100vh; 
+        }
+
+        .property-list {
+            width: 350px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        /* Адаптивность */
+    @media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+    
+    .property-list {
+        width: 100%;
+        height: 300px;
+    }
+}
+
