@@ -87,9 +87,19 @@ body, html {
         }
 
         #map {
-            flex: 1;
-            height: 100vh; 
-        }
+            height: 60vh; /* Адаптивная высота */
+            width: 70%;
+            min-height: 300px;
+            transition: all 0.3s ease;
+            }
+
+            /* @media (max-width: 768px) {
+            #map {
+                height: 50vh;
+                border-radius: 12px;
+                margin: 10px 0;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            } */
 
         .property-list {
             width: 350px;

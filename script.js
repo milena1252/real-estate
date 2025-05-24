@@ -1,6 +1,12 @@
-ymaps.ready(init);
+ymaps.ready(function() {
+    // Проверяем, не была ли карта уже инициализирована
+    if (window.mapInitialized) return;
+    window.mapInitialized = true;
+    
+    initMap();
+});
 
-function init() {
+function initMap() {
   // 1. Инициализация карты
   const map = new ymaps.Map('map', {
     center: [53.9023, 27.5619], // Координаты Минска
