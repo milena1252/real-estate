@@ -1,22 +1,53 @@
 ymaps.ready(init);
 
+ymaps.ready(init);
+
 function init() {
-  // Центрируем карту на Минске
+  // 1. Инициализация карты
   const map = new ymaps.Map('map', {
     center: [53.9023, 27.5619], // Координаты Минска
-    zoom: 12
+    zoom: 12,
+    controls: ['zoomControl', 'typeSelector', 'fullscreenControl']
   });
 
-  // Добавляем поиск
-  const searchControl = new ymaps.control.SearchControl({
-    options: {
-      provider: 'yandex#search',
-      noPlacemark: true
-    }
+  // 2. Настройка SuggestView (использует ключ API Геосаджеста)
+  const suggestView = new ymaps.SuggestView('search', {
+    provider: {
+      suggest: (request, options) => {
+        return ymaps.suggest(request, {
+          apiKey: '1f17e8fd-8f09-45b1-85cf-a63c9184b9b4', // Вставьте сюда ключ из кабинета Yandex (раздел "API Геосаджеста")
+          results: 5,
+          boundedBy: map.getBounds(), // Ограничиваем подсказки видимой областью
+          strictBounds: true
+        });
+      }
+    },
+    offset: [0, 5],
+    container: document.body
   });
-  map.controls.add(searchControl);
 
-  // Метки
+  // 3. Обработчик выбора подсказки (использует HTTP Геокодер)
+  suggestView.events.add('select', function (e) {
+    const selectedAddress = e.get('item').value;
+    document.getElementById('search').value = selectedAddress;
+    
+    // Используем HTTP Геокодер для точного поиска
+    ymaps.geocode(selectedAddress, {
+      apiKey: 'e2f5e483-c251-4585-83b0-6c43d9f3dcfa', // Вставьте сюда ключ из кабинета Yandex (раздел "HTTP Геокодер")
+      results: 1
+    }).then(function (res) {
+      const firstResult = res.geoObjects.get(0);
+      if (firstResult) {
+        map.setCenter(firstResult.geometry.getCoordinates());
+        // Добавляем метку для найденного адреса
+        new ymaps.Placemark(firstResult.geometry.getCoordinates(), {
+          hintContent: selectedAddress
+        }).addTo(map);
+      }
+    });
+  });
+
+  // 4. Остальной код (метки, кластеризатор и фильтры) остается без изменений
   const properties = [
     {
       id: 1,
@@ -25,33 +56,49 @@ function init() {
       address: "Минск, ул. Ленина 15",
       price: "$120 000",
       area: "80 м²",
-      coords: [53.9023, 27.5619] // Теперь в зоне видимости
+      rooms: 3,
+      coords: [53.9023, 27.5619],
+      photos: []
     }
+    // ... остальные объекты
   ];
 
-  properties.forEach(property => {
-    const placemark = new ymaps.Placemark(property.coords, {
-      hintContent: property.title,
-      balloonContent: `
-        <h4>${property.title}</h4>
-        <p>${property.address}</p>
-        <p>${property.area} · ${property.price}</p>
-      `
-    }, {
-      iconColor: property.type === 'flat' ? '#4b8df8' : '#ff6b6b',
-      preset: 'islands#dotIcon'
-    });
-    
-    map.geoObjects.add(placemark);
+  const clusterer = new ymaps.Clusterer({
+    preset: 'islands#invertedBlueClusterIcons',
+    clusterDisableClickZoom: true
   });
 
-  // Автомасштабирование
-  map.setBounds(map.geoObjects.getBounds(), {
-    checkZoomRange: true
+  const placemarks = properties.map(property => {
+    return new ymaps.Placemark(property.coords, {
+      hintContent: property.title,
+      balloonContent: `
+        <strong>${property.title}</strong>
+        <p>Адрес: ${property.address}</p>
+        <p>Цена: ${property.price}</p>
+        <button onclick="showPropertyDetails(${property.id})">Подробнее</button>
+      `
+    }, {
+      preset: 'islands#blueHomeIcon'
+    });
   });
+
+  clusterer.add(placemarks);
+  map.geoObjects.add(clusterer);
+
+  // Обработчики фильтров и другие функции остаются без изменений
+  // ...
 }
 
 function showPropertyDetails(id) {
-    // Открытие детальной информации об объекте
-    console.log(`Showing details for property ${id}`);
+  console.log(`Просмотр объекта ID: ${id}`);
+  alert(`Детали объекта #${id} будут здесь!`);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof ymaps !== 'undefined') {
+    init();
+  } else {
+    document.getElementById('map').innerHTML = 
+      '<div class="map-error">Ошибка загрузки карты. Проверьте подключение к интернету.</div>';
+  }
+});
