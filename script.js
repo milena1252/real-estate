@@ -1,7 +1,5 @@
 ymaps.ready(init);
 
-ymaps.ready(init);
-
 function init() {
   // 1. Инициализация карты
   const map = new ymaps.Map('map', {
@@ -47,6 +45,7 @@ function init() {
     });
   });
 
+  
   // 4. Остальной код (метки, кластеризатор и фильтры) остается без изменений
   const properties = [
     {
@@ -94,11 +93,3 @@ function showPropertyDetails(id) {
   alert(`Детали объекта #${id} будут здесь!`);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (typeof ymaps !== 'undefined') {
-    init();
-  } else {
-    document.getElementById('map').innerHTML = 
-      '<div class="map-error">Ошибка загрузки карты. Проверьте подключение к интернету.</div>';
-  }
-});
